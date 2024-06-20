@@ -3,48 +3,35 @@ import numpy as np
 import pandas as pd
 import altair as alt
 
-# Page title
-st.set_page_config(page_title='Interactive Data Explorer', page_icon='📊')
-st.title('📊 Interactive Data Explorer')
+#Page title
+st.set_page_config(page_title='ACOM CORP', page_icon='💻')
+st.title('💻 Config to OLT ACOM')
+st.info('Cấu hình tự động OLT các dự án của ACOM trên toàn quốc và kiểm tra số lượng thuê bao đang tồn tại.')
 
-with st.expander('About this app'):
-  st.markdown('**What can this app do?**')
-  st.info('This app shows the use of Pandas for data wrangling, Altair for chart creation and editable dataframe for data interaction.')
-  st.markdown('**How to use the app?**')
-  st.warning('To engage with the app, 1. Select genres of your interest in the drop-down selection box and then 2. Select the year duration from the slider widget. As a result, this should generate an updated editable DataFrame and line plot.')
+with st.expander('Giới thiệu về app'):
+  st.markdown('**Bạn có thể làm gì với App?**')
+  st.info('Cấu hình các dự án của ACOM toàn quốc, Xem data của đang hoạt động ở các dự án.')
+  st.markdown('**Bạn sử dụng như thế nào?**')
+  st.warning('1. Chọn dự án cần sử dụng\n2. Chọn trên list thông tin cần xử lý\n3. Nhập các thông tin cần xử lý\n4. Thông báo trả kết quả.')
   
-st.subheader('Which Movie Genre performs ($) best at the box office?')
+st.subheader('WELCOME TO ACOM CORPORATION OLT CONFIGURATION WEBSITE!')
 
-# Load data
-df = pd.read_csv('data/movies_genres_summary.csv')
-df.year = df.year.astype('int')
+tabs = st.tabs(['Cấu hình', 'Check thông tin dự án'])
 
-# Input widgets
-## Genres selection
-genres_list = df.genre.unique()
-genres_selection = st.multiselect('Select genres', genres_list, ['Action', 'Adventure', 'Biography', 'Comedy', 'Drama', 'Horror'])
+with tabs[0]:
+    project_options = ['Vinhomes Grand Park PK2', 'Vinhomes Grand Park PK3', 'Lavida Plus', 'Lux5 Bason', 'EcoxuanBD', 'TCL Tham Lương', 'HP One', 'AriaVT', 'BaryaVT', 'Hacom', 'Global City', 'Vin Hưng Yên', 'Vin Tây Mỗ', 'Vin Bắc Giang']
+    selected_project = st.selectbox('Chọn dự án', project_options)
 
-## Year selection
-year_list = df.year.unique()
-year_selection = st.slider('Select year duration', 1986, 2006, (2000, 2016))
-year_selection_list = list(np.arange(year_selection[0], year_selection[1]+1))
+    if selected_project:
+        options = ['Config', 'Check', 'Clear', 'Reboot', 'Bridge', 'thoai', 'iptv']
+        st.write(f'Bạn đã chọn dự án: {selected_project}')
+        st.write('Đang chuyển đến giao diện cấu hình OLT...')
+        congthuc = st.text_area('Nhập công thức theo hướng dẫn của Chiến ACOM (Nếu không biết vui lòng liên hệ: 0932277923 Phone/Zalo Chiến ACOM)')
+        if selected_project == 'Vinhomes Grand Park PK2':
+            choice = st.selectbox('Bạn muốn gì?', options)
+            if choice:
+                st.write('Bạn muốn {} OLT Vinhomes Grand Park PK2'.format(choice))
 
-df_selection = df[df.genre.isin(genres_selection) & df['year'].isin(year_selection_list)]
-reshaped_df = df_selection.pivot_table(index='year', columns='genre', values='gross', aggfunc='sum', fill_value=0)
-reshaped_df = reshaped_df.sort_values(by='year', ascending=False)
-
-
-# Display DataFrame
-
-df_editor = st.data_editor(reshaped_df, height=212, use_container_width=True,
-                            column_config={"year": st.column_config.TextColumn("Year")},
-                            num_rows="dynamic")
-df_chart = pd.melt(df_editor.reset_index(), id_vars='year', var_name='genre', value_name='gross')
-
-# Display chart
-chart = alt.Chart(df_chart).mark_line().encode(
-            x=alt.X('year:N', title='Year'),
-            y=alt.Y('gross:Q', title='Gross earnings ($)'),
-            color='genre:N'
-            ).properties(height=320)
-st.altair_chart(chart, use_container_width=True)
+with tabs[1]:
+    recent_ticket_number = int(max(st.session_state.df.ID).split('-')[1])
+    st.write(f'Số lượng thuê bao hiện tại: {recent_ticket_number - 1000}')
