@@ -27,7 +27,7 @@ if selected_project:
     options = ['Config', 'Check', 'Clear', 'Reboot', 'Bridge', 'thoai', 'iptv']
     st.write(f'Bạn đã chọn dự án: {selected_project}')
     st.write('Đang chuyển đến giao diện cấu hình OLT...')
-    congthuc = st.text_area('Nhập công thức theo hướng dẫn của Chiến ACOM (Nếu không biết vui lòng liên hệ: 0932277923 Phone/Zalo Chiến ACOM)')
+    congthuc = st.text('Nhập công thức theo hướng dẫn của Chiến ACOM (Nếu không biết vui lòng liên hệ: 0932277923 Phone/Zalo Chiến ACOM)')
     if selected_project == 'Vinhomes Grand Park PK2':
         choice = st.selectbox('Bạn muốn gì?', options)
         if choice:
