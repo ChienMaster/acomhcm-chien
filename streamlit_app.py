@@ -5,7 +5,7 @@ import pandas as pd
 import altair as alt
 
 #Page title
-st.set_page_config(page_title='ACOM CORP', page_icon='💻')
+st.set_page_config(layout="wide", page_title='ACOM CORP', page_icon='💻')
 st.title('💻 Config to OLT ACOM')
 st.info('Cấu hình tự động OLT các dự án của ACOM trên toàn quốc và kiểm tra số lượng thuê bao đang tồn tại.')
 
