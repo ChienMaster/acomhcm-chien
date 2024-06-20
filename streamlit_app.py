@@ -33,5 +33,4 @@ with tabs[0]:
                 st.write('Bạn muốn {} OLT Vinhomes Grand Park PK2'.format(choice))
 
 with tabs[1]:
-    recent_ticket_number = int(max(st.session_state.df.ID).split('-')[1])
-    st.write(f'Số lượng thuê bao hiện tại: {recent_ticket_number - 1000}')
+    selected_project = st.selectbox('Chọn dự án', project_options)
